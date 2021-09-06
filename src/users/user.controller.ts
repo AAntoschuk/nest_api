@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { UserDTO } from './user.dto';
 import { Users } from './user.entity';
@@ -17,12 +26,15 @@ export class UserController {
   }
 
   @Post()
-  createUser(@Body() body): Promise<UserDTO> {
-    return this.userService.createUser(body);
+  @HttpCode(HttpStatus.CREATED)
+  public async createUser(@Body() body: UserDTO) {
+    return await this.userService.createUser(body);
   }
 
   @Delete(':id')
-  deleteUser(@Param() params): Promise<DeleteResult> {
-    return this.userService.deleteUser(params.id);
+  @HttpCode(HttpStatus.OK)
+  public async deleteUser(@Param() params): Promise<DeleteResult> {
+    const user_id = params.id;
+    return this.userService.deleteUser(user_id);
   }
 }

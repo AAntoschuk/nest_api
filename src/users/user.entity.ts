@@ -1,7 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import bcrypt from 'bcrypt';
 @Entity()
 export class Users {
+  @BeforeInsert()
+  hashPass() {
+    console.log('before');
+  }
+
+  // bcrypt.hash(this.password, 10, (error: string, hash: string) => {
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  //   this.password = hash;
+  // });
+
   @PrimaryGeneratedColumn()
   user_id: number;
 
