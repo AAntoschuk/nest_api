@@ -7,7 +7,11 @@ export const config = () => ({
     type: 'postgres',
     url: process.env.DATABASE_URL,
     entities: [Blog, Users],
-    synchronize: true,
+    synchronize: false,
     ssl: { rejectUnauthorized: false },
+    migrations: ['src/migration/*{.ts,.js}'],
+    cli: {
+      migrationsDir: 'src/migrations',
+    },
   },
 });
